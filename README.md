@@ -21,8 +21,7 @@ e Random Forest.
 Projeto-AV2-ML1-ET0-Pernambuco/
 ├── README.md
 ├── et0_pernambuco.ipynb
-└── dados_inmet/
-└── (CSVs das 12 estações INMET - 2023)
+└── Dados_inmet_pernambuco_2023.zip
 
 ## Como Executar
 1. Abra o notebook pelo link do colab abaixo
