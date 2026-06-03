@@ -36,3 +36,9 @@ Projeto-AV2-ML1-ET0-Pernambuco/
 - O Random Forest supera o IDW na interpolação espacial da ET₀?
 - É possível boa precisão com apenas 12 estações de referência?
 - A altitude e a longitude são as variáveis espaciais mais influentes na predição da ET₀?
+
+##  Passo a passo do MLflow
+1. `pip install mlflow scikit-learn`
+2. `python -m mlflow ui --port 5000`
+3. Em outro terminal: `python mlflow_et0.py`
+4. Acesse http://localhost:5000
