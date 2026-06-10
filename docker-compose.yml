@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  dashboard:
+    build: .
+    ports:
+      - "8501:8501"
+    container_name: et0_pernambuco_dashboard
