@@ -1,44 +1,97 @@
 # Projeto-AV2-ML1-ET0-Pernambuco
-Interpolação espacial dos dados do ET0 das 12 estações meteorológicas no estado de Pernambuco em 2023.
+
+Interpolação espacial dos dados de ET₀ das 12 estações meteorológicas no estado de Pernambuco em 2023.
 
 ## Autor
-Pedro Soares Pereria - @pedraocoder
 
-## Disciplina 
+Pedro Soares Pereira — [@pedraocoder](https://github.com/pedraocoder)
+
+## Disciplina
+
 Machine Learning 1
 
 ## Instituição
+
 CESAR School
 
 ## Descrição
-Projeto de estimativa espacial da evapotranspiração de referência (ET₀)
-no estado de Pernambuco, utilizando dados de 12 estações automáticas
-do INMET no ano de 2023. Aplica a equação de Penman-Monteith FAO-56 para
-cálculo da ET₀ e compara dois métodos utilizados na interpolação espacial: IDW
-e Random Forest.
+
+Projeto de estimativa espacial da evapotranspiração de referência (ET₀) no estado de Pernambuco, utilizando dados de 12 estações automáticas do INMET no ano de 2023. Aplica a equação de Penman-Monteith FAO-56 para cálculo da ET₀ e compara dois métodos de interpolação espacial: **IDW** (Inverse Distance Weighting) e **Random Forest**, com validação **Leave-One-Out (LOO-CV)**.
 
 ## Estrutura do repositório
+
+```
 Projeto-AV2-ML1-ET0-Pernambuco/
 ├── README.md
-├── et0_pernambuco.ipynb
-└── Dados_inmet_pernambuco_2023.zip
+├── et0_pernambuco.ipynb              # Notebook principal (cálculo ET₀, EDA, modelagem)
+├── mlflow_et0.py                     # Script de rastreamento de experimentos
+├── Dados_inmet_pernambuco_2023.zip   # Dados brutos das 12 estações
+├── app.py                            # Dashboard interativo (Streamlit)
+├── Dockerfile                        # Containerização do dashboard
+├── docker-compose.yml                # Orquestração do container
+└── requirements.txt                  # Dependências Python
+```
 
 ## Como Executar
-1. Abra o notebook pelo link do colab abaixo
-2. Faça upload do arquivo .zip com os dados do INMET
+
+### Notebook
+
+1. Abra o notebook pelo link do Colab abaixo
+2. Faça upload do arquivo `.zip` com os dados do INMET
 3. Execute as células em ordem sequencial
 
-##  Notebook
 [Abrir no Google Colab](https://colab.research.google.com/drive/1aKZrD9er-x7hV7FkUDVu7ZbCWF_hlILP?usp=sharing)
 
-##  Hipóteses do Projeto
+### Dashboard com Docker
+
+Com o [Docker Desktop](https://www.docker.com/products/docker-desktop) instalado e em execução:
+
+```bash
+docker-compose up --build
+```
+
+Acesse o dashboard em **http://localhost:8501**
+
+O dashboard possui cinco páginas:
+- **Visão Geral** — métricas consolidadas e tabela das estações
+- **Mapas de Espacialização** — mapas IDW e RF com slider interativo do parâmetro p
+- **Análise Exploratória** — ET₀ por estação, matriz de correlação e importância das variáveis
+- **Comparação de Modelos** — Grid Search e gráfico comparativo de métricas
+- **Previsões LOO-CV** — valores reais vs. estimados e tabela de erros por estação
+
+### MLflow
+
+1. `pip install mlflow scikit-learn`
+2. `python -m mlflow ui --port 5000`
+3. Em outro terminal: `python mlflow_et0.py`
+4. Acesse http://localhost:5000
+
+## Hipóteses do Projeto
+
 - A ET₀ apresenta gradiente espacial claro entre o litoral e o sertão de PE?
 - O Random Forest supera o IDW na interpolação espacial da ET₀?
 - É possível boa precisão com apenas 12 estações de referência?
 - A altitude e a longitude são as variáveis espaciais mais influentes na predição da ET₀?
 
-##  Passo a passo do MLflow
-1. `pip install mlflow scikit-learn`
-2. `python -m mlflow ui --port 5000`
-3. Em outro terminal: `python mlflow_et0.py`
-4. Acesse http://localhost:5000
+## Principais Resultados
+
+| Modelo | Configuração | RMSE (mm/dia) | MAE (mm/dia) | R² |
+|--------|-------------|:-------------:|:------------:|:--:|
+| **IDW** | p = 2,5 | **0,5490** | **0,4350** | **0,4056** |
+| Random Forest | n=100, depth=None, leaf=2 | 0,5815 | 0,4407 | 0,3329 |
+
+- O **IDW (p=2,5)** superou o Random Forest em todas as métricas — esperado dado o tamanho reduzido da amostra (12 estações).
+- Confirmou-se o **gradiente longitudinal** de ET₀: de 3,08 mm/dia em Caruaru (agreste) a 5,45 mm/dia em Ibimirim (sertão).
+- A **longitude** foi a variável mais importante para o RF (importância = 0,657).
+
+## Tecnologias
+
+- **Python** — pandas, numpy, scikit-learn, matplotlib, seaborn
+- **MLflow** — rastreamento de experimentos
+- **Streamlit** — dashboard interativo
+- **Docker** — containerização
+- **Google Colab / VS Code** — desenvolvimento
+
+## Referência
+
+Baratto et al. (2022). *Random forest for spatialization of daily evapotranspiration (ET₀) in watersheds in the Atlantic Forest.* Environmental Monitoring and Assessment, 194:449.
