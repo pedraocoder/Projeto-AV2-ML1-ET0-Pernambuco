@@ -73,17 +73,6 @@ O dashboard possui cinco páginas:
 - É possível boa precisão com apenas 12 estações de referência?
 - A altitude e a longitude são as variáveis espaciais mais influentes na predição da ET₀?
 
-## Principais Resultados
-
-| Modelo | Configuração | RMSE (mm/dia) | MAE (mm/dia) | R² |
-|--------|-------------|:-------------:|:------------:|:--:|
-| **IDW** | p = 2,5 | **0,5490** | **0,4350** | **0,4056** |
-| Random Forest | n=100, depth=None, leaf=2 | 0,5815 | 0,4407 | 0,3329 |
-
-- O **IDW (p=2,5)** superou o Random Forest em todas as métricas — esperado dado o tamanho reduzido da amostra (12 estações).
-- Confirmou-se o **gradiente longitudinal** de ET₀: de 3,08 mm/dia em Caruaru (agreste) a 5,45 mm/dia em Ibimirim (sertão).
-- A **longitude** foi a variável mais importante para o RF (importância = 0,657).
-
 ## Tecnologias
 
 - **Python** — pandas, numpy, scikit-learn, matplotlib, seaborn
